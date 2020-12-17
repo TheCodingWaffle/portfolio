@@ -1,11 +1,4 @@
-/*
-	Forty by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
-*/
-
 (function ($) {
-
 	var $window = $(window),
 		$body = $('body'),
 		$wrapper = $('#wrapper'),
@@ -19,77 +12,73 @@
 		medium: ['737px', '980px'],
 		small: ['481px', '736px'],
 		xsmall: ['361px', '480px'],
-		xxsmall: [null, '360px']
+		xxsmall: [null, '360px'],
 	});
 
 	/**
 	 * Applies parallax scrolling to an element's background image.
 	 * @return {jQuery} jQuery object.
 	 */
-	$.fn._parallax = (browser.name == 'ie' || browser.name == 'edge' || browser.mobile) ? function () { return $(this) } : function (intensity) {
+	$.fn._parallax =
+		browser.name == 'ie' || browser.name == 'edge' || browser.mobile
+			? function () {
+				return $(this);
+			}
+			: function (intensity) {
+				var $window = $(window),
+					$this = $(this);
 
-		var $window = $(window),
-			$this = $(this);
+				if (this.length == 0 || intensity === 0) return $this;
 
-		if (this.length == 0 || intensity === 0)
-			return $this;
+				if (this.length > 1) {
+					for (var i = 0; i < this.length; i++)
+						$(this[i])._parallax(intensity);
 
-		if (this.length > 1) {
+					return $this;
+				}
 
-			for (var i = 0; i < this.length; i++)
-				$(this[i])._parallax(intensity);
+				if (!intensity) intensity = 0.25;
 
-			return $this;
+				$this.each(function () {
+					var $t = $(this),
+						on,
+						off;
 
-		}
+					on = function () {
+						$t.css(
+							'background-position',
+							'center 100%, center 100%, center 0px'
+						);
 
-		if (!intensity)
-			intensity = 0.25;
+						$window.on('scroll._parallax', function () {
+							var pos =
+								parseInt($window.scrollTop()) - parseInt($t.position().top);
 
-		$this.each(function () {
+							$t.css(
+								'background-position',
+								'center ' + pos * (-1 * intensity) + 'px'
+							);
+						});
+					};
 
-			var $t = $(this),
-				on, off;
+					off = function () {
+						$t.css('background-position', '');
 
-			on = function () {
+						$window.off('scroll._parallax');
+					};
 
-				$t.css('background-position', 'center 100%, center 100%, center 0px');
+					breakpoints.on('<=medium', off);
+					breakpoints.on('>medium', on);
+				});
 
 				$window
-					.on('scroll._parallax', function () {
-
-						var pos = parseInt($window.scrollTop()) - parseInt($t.position().top);
-
-						$t.css('background-position', 'center ' + (pos * (-1 * intensity)) + 'px');
-
+					.off('load._parallax resize._parallax')
+					.on('load._parallax resize._parallax', function () {
+						$window.trigger('scroll');
 					});
 
+				return $(this);
 			};
-
-			off = function () {
-
-				$t
-					.css('background-position', '');
-
-				$window
-					.off('scroll._parallax');
-
-			};
-
-			breakpoints.on('<=medium', off);
-			breakpoints.on('>medium', on);
-
-		});
-
-		$window
-			.off('load._parallax resize._parallax')
-			.on('load._parallax resize._parallax', function () {
-				$window.trigger('scroll');
-			});
-
-		return $(this);
-
-	};
 
 	// Play initial animations on page load.
 	$window.on('load', function () {
@@ -106,26 +95,22 @@
 	});
 
 	// Fix: Enable IE-only tweaks.
-	if (browser.name == 'ie' || browser.name == 'edge')
-		$body.addClass('is-ie');
+	if (browser.name == 'ie' || browser.name == 'edge') $body.addClass('is-ie');
 
 	// Scrolly.
 	$('.scrolly').scrolly({
 		offset: function () {
 			return $header.height() - 2;
-		}
+		},
 	});
-
-	//Landing.
-	// var $tiles = $('.major > article');
 
 	// Tiles.
 	var $tiles = $('.tiles > article');
 
 	$tiles.each(function () {
-
 		var $this = $(this),
-			$image = $this.find('.image'), $img = $image.find('img'),
+			$image = $this.find('.image'),
+			$img = $image.find('img'),
 			$link = $this.find('.link'),
 			x;
 
@@ -135,24 +120,18 @@
 		$this.css('background-image', 'url(' + $img.attr('src') + ')');
 
 		// Set position.
-		if (x = $img.data('position'))
-			$image.css('background-position', x);
+		if ((x = $img.data('position'))) $image.css('background-position', x);
 
 		// Hide original.
 		$image.hide();
 
 		// Link.
 		if ($link.length > 0) {
-
-			$x = $link.clone()
-				.text('')
-				.addClass('primary')
-				.appendTo($this);
+			$x = $link.clone().text('').addClass('primary').appendTo($this);
 
 			$link = $link.add($x);
 
 			$link.on('click', function (event) {
-
 				var href = $link.attr('href');
 
 				// Prevent default.
@@ -161,15 +140,12 @@
 
 				// Target blank?
 				if ($link.attr('target') == '_blank') {
-
 					// Open in new tab.
 					window.open(href);
-
 				}
 
 				// Otherwise ...
 				else {
-
 					// Start transitioning.
 					$this.addClass('is-transitioning');
 					$wrapper.addClass('is-transitioning');
@@ -178,39 +154,33 @@
 					window.setTimeout(function () {
 						location.href = href;
 					}, 500);
-
 				}
-
 			});
-
 		}
-
 	});
 
 	function splitTextFile(file) {
-		return file ? file.split(/, (?=[^,]+:)/).map(s => s.split(': ')) : null;
+		return file ? file.split(/, (?=[^,]+:)/).map((s) => s.split(': ')) : null;
 	}
 
 	function getParameterByName(name) {
-		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(location.search);
-		return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+		name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+		var regex = new RegExp('[\\?&]' + name + '=([^&#]*)'),
+			results = regex.exec(location.search);
+		return results == null
+			? ''
+			: decodeURIComponent(results[1].replace(/\+/g, ' '));
 	}
 
-	// if ($wrapper.length > 0) {
 	$wrapper.each(function () {
-
 		var projectId = getParameterByName('project');
-
-
-
 
 		if (projectId) {
 			var $this = $(this);
 			var projectVars;
 			fetch(projectId + '.txt')
-				.then(response => response.text())
-				.then(text => {
+				.then((response) => response.text())
+				.then((text) => {
 					projectVars = splitTextFile(text);
 
 					const result = Object.fromEntries(projectVars);
@@ -239,64 +209,59 @@
 					if ($gitHubLink.length > 0) {
 						if (result.github) {
 							$gitHubLink[0].setAttribute('href', result.github);
-						}
-						else {
+						} else {
 							$gitHubLink.addClass('hide-me');
 							// $gitHubLink[0].
 						}
-
 					}
 				});
-
-
 		}
 	});
 
 	// Header.
-	if ($banner.length > 0
-		&& $header.hasClass('alt')) {
-
+	if ($banner.length > 0 && $header.hasClass('alt')) {
 		$window.on('resize', function () {
 			$window.trigger('scroll');
 		});
 
 		$window.on('load', function () {
-
 			$banner.scrollex({
 				bottom: $header.height() + 10,
-				terminate: function () { $header.removeClass('alt'); },
-				enter: function () { $header.addClass('alt'); },
-				leave: function () { $header.removeClass('alt'); $header.addClass('reveal'); }
+				terminate: function () {
+					$header.removeClass('alt');
+				},
+				enter: function () {
+					$header.addClass('alt');
+				},
+				leave: function () {
+					$header.removeClass('alt');
+					$header.addClass('reveal');
+				},
 			});
 
 			window.setTimeout(function () {
 				$window.triggerHandler('scroll');
 			}, 100);
-
 		});
-
 	}
 
 	// Banner.
 	$banner.each(function () {
-
 		var $this = $(this),
-			$image = $this.find('.image'), $img = $image.find('img');
+			$image = $this.find('.image'),
+			$img = $image.find('img');
 
 		// Parallax.
 		$this._parallax(0.275);
 
 		// Image.
 		if ($image.length > 0) {
-
 			// Set image.
 			$this.css('background-image', 'url(' + $img.attr('src') + ')');
 
 			// Hide original.
 			$image.hide();
-
 		}
-
 	});
 
 	// Menu.
@@ -308,9 +273,7 @@
 	$menu._locked = false;
 
 	$menu._lock = function () {
-
-		if ($menu._locked)
-			return false;
+		if ($menu._locked) return false;
 
 		$menu._locked = true;
 
@@ -319,28 +282,18 @@
 		}, 350);
 
 		return true;
-
 	};
 
 	$menu._show = function () {
-
-		if ($menu._lock())
-			$body.addClass('is-menu-visible');
-
+		if ($menu._lock()) $body.addClass('is-menu-visible');
 	};
 
 	$menu._hide = function () {
-
-		if ($menu._lock())
-			$body.removeClass('is-menu-visible');
-
+		if ($menu._lock()) $body.removeClass('is-menu-visible');
 	};
 
 	$menu._toggle = function () {
-
-		if ($menu._lock())
-			$body.toggleClass('is-menu-visible');
-
+		if ($menu._lock()) $body.toggleClass('is-menu-visible');
 	};
 
 	$menuInner
@@ -348,7 +301,6 @@
 			event.stopPropagation();
 		})
 		.on('click', 'a', function (event) {
-
 			var href = $(this).attr('href');
 
 			event.preventDefault();
@@ -361,43 +313,32 @@
 			window.setTimeout(function () {
 				window.location.href = href;
 			}, 250);
-
 		});
 
 	$menu
 		.appendTo($body)
 		.on('click', function (event) {
-
 			event.stopPropagation();
 			event.preventDefault();
 
 			$body.removeClass('is-menu-visible');
-
 		})
 		.append('<a class="close" href="#menu">Close</a>');
 
 	$body
 		.on('click', 'a[href="#menu"]', function (event) {
-
 			event.stopPropagation();
 			event.preventDefault();
 
 			// Toggle.
 			$menu._toggle();
-
 		})
 		.on('click', function (event) {
-
 			// Hide.
 			$menu._hide();
-
 		})
 		.on('keydown', function (event) {
-
 			// Hide on escape.
-			if (event.keyCode == 27)
-				$menu._hide();
-
+			if (event.keyCode == 27) $menu._hide();
 		});
-
 })(jQuery);
