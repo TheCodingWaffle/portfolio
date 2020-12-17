@@ -178,7 +178,7 @@
 		if (projectId) {
 			var $this = $(this);
 			var projectVars;
-			fetch(projectId + '.txt')
+			fetch('/assets/projects/' + projectId + '.txt')
 				.then((response) => response.text())
 				.then((text) => {
 					projectVars = splitTextFile(text);
