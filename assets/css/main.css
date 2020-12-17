@@ -3512,7 +3512,7 @@ body.is-preload #header.alt {
     -webkit-align-items: center;
     -ms-align-items: center;
     align-items: center;
-    background-image: url("../../images/banner.jpg");
+    background-image: url("../../images/banner.png");
     display: -moz-flex;
     display: -webkit-flex;
     display: -ms-flex;
@@ -3542,7 +3542,7 @@ body.is-preload #header.alt {
     -ms-transition-delay: 0.75s;
     transition-delay: 0.75s;
     pointer-events: none;
-    background-color: #242943;
+    background-color: #242943c7;
     content: '';
     display: block;
     height: 100%;

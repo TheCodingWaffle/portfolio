@@ -178,7 +178,7 @@
 		if (projectId) {
 			var $this = $(this);
 			var projectVars;
-			fetch(projectId + '.txt')
+			fetch('/assets/projects/' + projectId + '.txt')
 				.then((response) => response.text())
 				.then((text) => {
 					projectVars = splitTextFile(text);
@@ -202,7 +202,11 @@
 
 					var $extLink = $this.find('#ext-link');
 					if ($extLink.length > 0) {
-						$extLink[0].setAttribute('href', result.host);
+						if (result.host) {
+							$extLink[0].setAttribute('href', result.host);
+						} else {
+							$extLink.addClass('hide-me');
+						}
 					}
 
 					var $gitHubLink = $this.find('#github-link');
@@ -211,7 +215,6 @@
 							$gitHubLink[0].setAttribute('href', result.github);
 						} else {
 							$gitHubLink.addClass('hide-me');
-							// $gitHubLink[0].
 						}
 					}
 				});
