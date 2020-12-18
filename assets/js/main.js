@@ -217,6 +217,14 @@
 							$gitHubLink.addClass('hide-me');
 						}
 					}
+
+					$banner.css('background-image', 'url(images/banners/' + projectId + '.png)');
+					// var $banner = $this.find('#landing-banner');
+					// if ($banner.length > 0) {
+						// $banner[0].setAttribute('src', 'images/banners/' + projectId + '.png');
+						// $this.css('background-image', 'url(' + $img.attr('src') + ')');
+						// $banner.css('background-image', 'url(images/banners/' + projectId + '.png)');
+					// }
 				});
 		}
 	});
@@ -260,7 +268,7 @@
 		// Image.
 		if ($image.length > 0) {
 			// Set image.
-			$this.css('background-image', 'url(' + $img.attr('src') + ')');
+			// $this.css('background-image', 'url(' + $img.attr('src') + ')');
 
 			// Hide original.
 			$image.hide();
