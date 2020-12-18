@@ -3512,7 +3512,7 @@ body.is-preload #header.alt {
     -webkit-align-items: center;
     -ms-align-items: center;
     align-items: center;
-    background-image: url("../../images/banner.png");
+    background-image: url("../../images/banners/index-banner.png");
     display: -moz-flex;
     display: -webkit-flex;
     display: -ms-flex;
