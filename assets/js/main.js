@@ -223,8 +223,6 @@
 					var $aboutImage = $this.find('#about-image');
 					if ($aboutImage.length > 0) {
 						$aboutImage[0].setAttribute('src', 'images/about/' + projectId + '.gif');
-						// $this.css('background-image', 'url(' + $img.attr('src') + ')');
-						// $aboutImage.css('background-image', 'url(images/banners/' + projectId + '.png)');
 					}
 				});
 		}
