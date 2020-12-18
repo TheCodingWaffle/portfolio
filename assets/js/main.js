@@ -185,17 +185,17 @@
 
 					const result = Object.fromEntries(projectVars);
 
-					var $title = $this.find('#landing-title');
+					var $title = $this.find('#project-title');
 					if ($title.length > 0) {
 						$title[0].innerHTML = result.title;
 					}
 
-					var $summary = $this.find('#landing-summary');
+					var $summary = $this.find('#project-summary');
 					if ($summary.length > 0) {
 						$summary[0].innerHTML = result.summary;
 					}
 
-					var $description = $this.find('#landing-description');
+					var $description = $this.find('#project-description');
 					if ($description.length > 0) {
 						$description[0].innerHTML = result.description;
 					}
