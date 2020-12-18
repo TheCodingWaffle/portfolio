@@ -219,12 +219,13 @@
 					}
 
 					$banner.css('background-image', 'url(images/banners/' + projectId + '.png)');
-					// var $banner = $this.find('#landing-banner');
-					// if ($banner.length > 0) {
-						// $banner[0].setAttribute('src', 'images/banners/' + projectId + '.png');
+
+					var $aboutImage = $this.find('#about-image');
+					if ($aboutImage.length > 0) {
+						$aboutImage[0].setAttribute('src', 'images/about/' + projectId + '.gif');
 						// $this.css('background-image', 'url(' + $img.attr('src') + ')');
-						// $banner.css('background-image', 'url(images/banners/' + projectId + '.png)');
-					// }
+						// $aboutImage.css('background-image', 'url(images/banners/' + projectId + '.png)');
+					}
 				});
 		}
 	});
